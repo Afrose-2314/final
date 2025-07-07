@@ -1,9 +1,9 @@
 const games = [
-  { name: "Color", file: "color.html", instruction: "Match the word color to the color of the text!" },
-  { name: "Math", file: "math.html", instruction: "Solve as many math problems as you can in 60s!" },
-  { name: "Guess", file: "guess.html", instruction: "Guess the number between 1-100 with hints!" },
-  { name: "Memory", file: "memory.html", instruction: "Match pairs before time runs out!" },
-  { name: "Typing", file: "typing.html", instruction: "Type the full sentence accurately before time ends!" }
+  { name: "Color", file: "color.html", instruction: "Match the text color, not the word!" },
+  { name: "Math", file: "math.html", instruction: "Solve as many math problems as possible!" },
+  { name: "Guess", file: "guess.html", instruction: "Guess the number between 1-100!" },
+  { name: "Memory", file: "memory.html", instruction: "Match all pairs before time runs out!" },
+  { name: "Typing", file: "typing.html", instruction: "Type sentences quickly and correctly!" }
 ];
 
 let spinning = false;
@@ -22,6 +22,7 @@ function spinWheel() {
   selectedIndex = Math.floor(Math.random() * games.length);
   const deg = 360 * 5 + selectedIndex * (360 / games.length);
   const wheel = document.getElementById("wheel");
+  wheel.style.transition = "transform 4s ease-out";
   wheel.style.transform = `rotate(${deg}deg)`;
 
   setTimeout(() => {
