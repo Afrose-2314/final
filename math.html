@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Math Game</title>
+  <style>
+    body { font-family: Arial; background: #e3f2fd; text-align: center; padding-top: 40px; }
+    input, button { padding: 10px; margin: 10px; font-size: 16px; }
+    #timer, #score { font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>➕ Math Challenge</h1>
+  <div id="question"></div>
+  <input type="number" id="answer" placeholder="Answer">
+  <button onclick="checkAnswer()">Submit</button>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time Left: 60s</div>
+
+  <script>
+    let num1, num2, score = 0, timeLeft = 60;
+
+    function newQuestion() {
+      num1 = Math.floor(Math.random() * 20);
+      num2 = Math.floor(Math.random() * 20);
+      document.getElementById("question").innerText = `What is ${num1} + ${num2}?`;
+      document.getElementById("answer").value = "";
+    }
+
+    function checkAnswer() {
+      const ans = parseInt(document.getElementById("answer").value);
+      if (ans === num1 + num2) score++;
+      document.getElementById("score").innerText = "Score: " + score;
+      newQuestion();
+    }
+
+    function startTimer() {
+      const timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          alert("⏰ Time's up! Score: " + score);
+          window.location.href = "index.html";
+        }
+      }, 1000);
+    }
+
+    newQuestion();
+    startTimer();
+  </script>
+</body>
+</html>
