@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Color Match</title>
+  <style>
+    body { font-family: Arial; background: #fce4ec; text-align: center; padding-top: 40px; }
+    .color-box {
+      width: 100px; height: 100px; margin: 10px;
+      display: inline-block; border: 2px solid #333;
+      cursor: pointer; border-radius: 10px;
+    }
+    #timer { font-size: 20px; margin-top: 20px; }
+    #score { font-size: 20px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🎨 Color Match</h1>
+  <h2 id="targetColor"></h2>
+  <div id="boxes"></div>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time Left: 60s</div>
+
+  <script>
+    const colors = ["red", "blue", "green", "yellow", "orange", "purple","black","maroon","pink"];
+    let target = "";
+    let score = 0;
+    let timeLeft = 60;
+
+    function generateBoxes() {
+      const container = document.getElementById("boxes");
+      container.innerHTML = "";
+      for (let i = 0; i < 6; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const div = document.createElement("div");
+        div.className = "color-box";
+        div.style.background = color;
+        div.onclick = () => checkColor(color);
+        container.appendChild(div);
+      }
+    }
+
+    function setNewTarget() {
+      target = colors[Math.floor(Math.random() * colors.length)];
+      document.getElementById("targetColor").innerText = "Click on: " + target;
+    }
+
+    function checkColor(selected) {
+      if (selected === target) {
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+      }
+      setNewTarget();
+      generateBoxes();
+    }
+
+    function startTimer() {
+      const timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          alert("⏰ Time's up! Your score: " + score);
+          window.location.href = "index.html";
+        }
+      }, 1000);
+    }
+
+    setNewTarget();
+    generateBoxes();
+    startTimer();
+  </script>
+</body>
+</html>
