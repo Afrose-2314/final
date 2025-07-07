@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Guess Number</title>
+  <title>Guess the Number</title>
   <style>
-    body { font-family: Arial; background: #fff3e0; text-align: center; padding-top: 40px; }
-    input, button { padding: 10px; margin-top: 10px; font-size: 18px; }
-    #result, #timer { font-size: 20px; margin-top: 20px; }
+    body {
+      font-family: Arial;
+      background: #fff3e0;
+      text-align: center;
+      padding-top: 40px;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 18px;
+    }
+    #result, #timer {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    #success {
+      font-size: 24px;
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -14,25 +32,34 @@
   <input type="number" id="guess">
   <button onclick="checkGuess()">Check</button>
   <div id="result"></div>
+  <div id="success"></div>
   <div id="timer">Time Left: 60s</div>
 
   <script>
     const number = Math.floor(Math.random() * 100) + 1;
     let timeLeft = 60;
+    let finished = false;
 
     function checkGuess() {
+      if (finished) return;
+
       const guess = parseInt(document.getElementById("guess").value);
+      const result = document.getElementById("result");
+      const success = document.getElementById("success");
+
       if (guess === number) {
-        alert("🎉 Correct! You guessed it.");
-        window.location.href = "index.html";
+        success.innerText = "🎉 Correct! You guessed the number!";
+        finished = true;
+        setTimeout(() => window.location.href = "index.html", 2000);
       } else if (guess < number) {
-        document.getElementById("result").innerText = "Too low! Try again.";
+        result.innerText = "Too low! Try again.";
       } else {
-        document.getElementById("result").innerText = "Too high! Try again.";
+        result.innerText = "Too high! Try again.";
       }
     }
 
     setInterval(() => {
+      if (finished) return;
       timeLeft--;
       document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
       if (timeLeft <= 0) {
