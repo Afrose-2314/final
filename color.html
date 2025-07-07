@@ -5,25 +5,28 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fce4ec;
+      background: #fff3e0;
       text-align: center;
       padding-top: 40px;
     }
+
     #word {
       font-size: 48px;
       margin: 30px;
       font-weight: bold;
     }
+
     .option-btn {
       padding: 12px 30px;
       margin: 15px;
       font-size: 20px;
       border: none;
       border-radius: 8px;
-      background: #ff80ab;
+      background: #ff7043;
       color: white;
       cursor: pointer;
     }
+
     #score, #timer {
       font-size: 20px;
       margin-top: 10px;
@@ -31,48 +34,50 @@
   </style>
 </head>
 <body>
-  <h1>🎨 Color Identification Game</h1>
+  <h1>🎯 Color Challenge</h1>
+  <p>Identify the <strong>color of the text</strong>, not the word!</p>
   <div id="word">Loading...</div>
   <div id="buttons"></div>
   <div id="score">Score: 0</div>
   <div id="timer">Time Left: 60s</div>
 
   <script>
-    const colors = ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"];
+    const colorNames = ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"];
     const colorCodes = ["red", "green", "blue", "yellow", "purple", "orange"];
-    let correctColor = "";
+
+    let correctColorCode = "";
     let score = 0;
     let timeLeft = 60;
 
-    function getRandomColorIndex() {
-      return Math.floor(Math.random() * colors.length);
-    }
-
     function setNewQuestion() {
-      const wordIndex = getRandomColorIndex();
-      const colorIndex = getRandomColorIndex();
+      const randomTextIndex = Math.floor(Math.random() * colorNames.length);
+      const randomColorIndex = Math.floor(Math.random() * colorCodes.length);
 
-      correctColor = colors[colorIndex];
+      const wordText = colorNames[randomTextIndex];
+      correctColorCode = colorNames[colorCodes.indexOf(colorCodes[randomColorIndex])]; // get name from code
+
       const wordDiv = document.getElementById("word");
-      wordDiv.innerText = colors[wordIndex];
-      wordDiv.style.color = colorCodes[colorIndex];
+      wordDiv.innerText = wordText;
+      wordDiv.style.color = colorCodes[randomColorIndex];
 
       const buttons = document.getElementById("buttons");
       buttons.innerHTML = "";
 
-      const shuffled = [...colors].sort(() => 0.5 - Math.random());
-      shuffled.forEach(col => {
+      const shuffled = [...colorNames].sort(() => 0.5 - Math.random());
+      shuffled.forEach(color => {
         const btn = document.createElement("button");
         btn.className = "option-btn";
-        btn.innerText = col;
-        btn.onclick = () => checkAnswer(col);
+        btn.innerText = color;
+        btn.onclick = () => checkAnswer(color);
         buttons.appendChild(btn);
       });
     }
 
-    function checkAnswer(answer) {
-      if (answer === correctColor) score++;
-      document.getElementById("score").innerText = "Score: " + score;
+    function checkAnswer(selected) {
+      if (selected === correctColorCode) {
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+      }
       setNewQuestion();
     }
 
@@ -82,7 +87,7 @@
         document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
         if (timeLeft <= 0) {
           clearInterval(timer);
-          alert("⏰ Time's up! Your score: " + score);
+          alert("⏰ Time's up! Your final score: " + score);
           window.location.href = "index.html";
         }
       }, 1000);
