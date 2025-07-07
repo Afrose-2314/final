@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Guess Number</title>
+  <style>
+    body { font-family: Arial; background: #fff3e0; text-align: center; padding-top: 40px; }
+    input, button { padding: 10px; margin-top: 10px; font-size: 18px; }
+    #result, #timer { font-size: 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🔢 Guess the Number</h1>
+  <p>I have a number between 1 and 100</p>
+  <input type="number" id="guess">
+  <button onclick="checkGuess()">Check</button>
+  <div id="result"></div>
+  <div id="timer">Time Left: 60s</div>
+
+  <script>
+    const number = Math.floor(Math.random() * 100) + 1;
+    let timeLeft = 60;
+
+    function checkGuess() {
+      const guess = parseInt(document.getElementById("guess").value);
+      if (guess === number) {
+        alert("🎉 Correct! You guessed it.");
+        window.location.href = "index.html";
+      } else if (guess < number) {
+        document.getElementById("result").innerText = "Too low! Try again.";
+      } else {
+        document.getElementById("result").innerText = "Too high! Try again.";
+      }
+    }
+
+    setInterval(() => {
+      timeLeft--;
+      document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
+      if (timeLeft <= 0) {
+        alert("⏰ Time's up! The number was: " + number);
+        window.location.href = "index.html";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
