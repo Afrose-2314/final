@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Typing Game</title>
+  <style>
+    body { font-family: Arial; background: #fffde7; text-align: center; padding-top: 40px; }
+    input { padding: 10px; width: 300px; font-size: 16px; }
+    #word { font-size: 24px; margin: 20px; font-weight: bold; }
+    #timer, #score { font-size: 18px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>⌨️ Typing Speed Game</h1>
+  <div id="word">Loading...</div>
+  <input type="text" id="typed" oninput="checkWord()" autofocus>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time Left: 60s</div>
+
+  <script>
+    const sentences = ["Practice makes perfect", "Hello world", "Typing is cool", "Believe God", "JavaScript is fun"];
+    let currentWord = "";
+    let score = 0, timeLeft = 60;
+
+    function newWord() {
+      currentWord = sentences[Math.floor(Math.random() * sentences.length)];
+      document.getElementById("word").innerText = currentWord;
+      document.getElementById("typed").value = "";
+    }
+
+    function checkWord() {
+      const typed = document.getElementById("typed").value;
+      if (typed === currentWord) {
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+        newWord();
+      }
+    }
+
+    setInterval(() => {
+      timeLeft--;
+      document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
+      if (timeLeft <= 0) {
+        alert("⏰ Time's up! Final score: " + score);
+        window.location.href = "index.html";
+      }
+    }, 1000);
+
+    newWord();
+  </script>
+</body>
+</html>
