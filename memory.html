@@ -1,74 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Memory Match</title>
+  <title>Memory Game</title>
   <style>
-    body { font-family: Arial; background: #f1f8e9; text-align: center; }
+    body {
+      font-family: Arial;
+      background: #f1f8e9;
+      text-align: center;
+      padding-top: 30px;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(5, 80px);
       gap: 10px;
       justify-content: center;
-      margin-top: 40px;
+      margin: 20px;
     }
     .card {
-      background: #aed581; width: 80px; height: 80px;
-      font-size: 32px; display: flex;
-      justify-content: center; align-items: center;
-      border-radius: 8px; cursor: pointer;
+      background-color: #c5e1a5;
+      height: 80px;
+      border-radius: 8px;
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
     }
-    #timer { font-size: 20px; margin-top: 20px; }
+    #timer {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #2e7d32;
+    }
   </style>
 </head>
 <body>
-  <h1>🧠 Memory Match</h1>
+  <h1>🧠 Memory Match Game</h1>
   <div class="grid" id="grid"></div>
   <div id="timer">Time Left: 60s</div>
+  <div id="result"></div>
 
   <script>
-    const emojis = ['🍎','🍌','🍇','🍓','🍒','🍍','🍎','🍌','🍇','🍓','🍒','🍍'];
-    let first = null, second = null, matches = 0;
-    let lock = false, timeLeft = 60;
+    const symbols = ['🍎','🍌','🍇','🍓','🍒','🍍','🍉','🥝','🍑','🥥'];
+    let cards = [...symbols, ...symbols];
+    let flipped = [];
+    let matched = [];
+    let timeLeft = 60;
+    let grid = document.getElementById("grid");
 
-    function shuffle(arr) {
-      return arr.sort(() => 0.5 - Math.random());
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
     }
 
-    function createBoard() {
-      const grid = document.getElementById("grid");
-      const shuffled = shuffle([...emojis]);
-      shuffled.forEach((emoji, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerText = "❓";
-        card.dataset.emoji = emoji;
-        card.onclick = () => flipCard(card);
-        grid.appendChild(card);
+    function startGame() {
+      grid.innerHTML = "";
+      cards = shuffle(cards);
+      cards.forEach((emoji, index) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.dataset.index = index;
+        div.dataset.emoji = emoji;
+        div.innerText = "❓";
+        div.onclick = () => flip(div);
+        grid.appendChild(div);
       });
     }
 
-    function flipCard(card) {
-      if (lock || card.innerText !== "❓") return;
+    function flip(card) {
+      if (flipped.length === 2 || matched.includes(card.dataset.index)) return;
       card.innerText = card.dataset.emoji;
-      if (!first) {
-        first = card;
+      flipped.push(card);
+
+      if (flipped.length === 2) {
+        setTimeout(checkMatch, 700);
+      }
+    }
+
+    function checkMatch() {
+      const [a, b] = flipped;
+      if (a.dataset.emoji === b.dataset.emoji) {
+        matched.push(a.dataset.index, b.dataset.index);
+        a.style.backgroundColor = "#81c784";
+        b.style.backgroundColor = "#81c784";
       } else {
-        second = card;
-        lock = true;
-        setTimeout(() => {
-          if (first.dataset.emoji === second.dataset.emoji) {
-            first.style.background = second.style.background = "lightgreen";
-            matches++;
-            if (matches === 6) {
-              alert("🎉 Congratulations! You matched all cards!");
-              window.location.href = "index.html";
-            }
-          } else {
-            first.innerText = second.innerText = "❓";
-          }
-          first = second = null;
-          lock = false;
-        }, 800);
+        a.innerText = b.innerText = "❓";
+      }
+      flipped = [];
+      if (matched.length === cards.length) {
+        document.getElementById("result").innerText = "🎉 You matched all!";
+        setTimeout(() => window.location.href = "index.html", 3000);
       }
     }
 
@@ -76,12 +101,12 @@
       timeLeft--;
       document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
       if (timeLeft <= 0) {
-        alert("❌ Time's up! Try again later.");
+        alert("⏰ Time's up! Try again later.");
         window.location.href = "index.html";
       }
     }, 1000);
 
-    createBoard();
+    startGame();
   </script>
 </body>
 </html>
