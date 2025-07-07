@@ -5,9 +5,13 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fff3e0;
+      background: linear-gradient(to bottom, #fbe9e7, #ffe0b2);
       text-align: center;
       padding-top: 40px;
+    }
+
+    h1 {
+      color: #d84315;
     }
 
     #word {
@@ -25,19 +29,27 @@
       background: #ff7043;
       color: white;
       cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #ff5722;
     }
 
     #score, #timer {
-      font-size: 20px;
+      font-size: 22px;
       margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <h1>🎯 Color Challenge</h1>
-  <p>Identify the <strong>color of the text</strong>, not the word!</p>
+  <p><strong>Choose the color of the text</strong> (not the word shown)</p>
+
   <div id="word">Loading...</div>
   <div id="buttons"></div>
+
   <div id="score">Score: 0</div>
   <div id="timer">Time Left: 60s</div>
 
@@ -50,15 +62,13 @@
     let timeLeft = 60;
 
     function setNewQuestion() {
-      const randomTextIndex = Math.floor(Math.random() * colorNames.length);
-      const randomColorIndex = Math.floor(Math.random() * colorCodes.length);
-
-      const wordText = colorNames[randomTextIndex];
-      correctColorCode = colorNames[colorCodes.indexOf(colorCodes[randomColorIndex])]; // get name from code
+      const wordText = colorNames[Math.floor(Math.random() * colorNames.length)];
+      const colorIndex = Math.floor(Math.random() * colorCodes.length);
+      correctColorCode = colorNames[colorIndex]; // get name of the color
 
       const wordDiv = document.getElementById("word");
       wordDiv.innerText = wordText;
-      wordDiv.style.color = colorCodes[randomColorIndex];
+      wordDiv.style.color = colorCodes[colorIndex]; // but font color is different
 
       const buttons = document.getElementById("buttons");
       buttons.innerHTML = "";
@@ -85,6 +95,7 @@
       const timer = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
+
         if (timeLeft <= 0) {
           clearInterval(timer);
           alert("⏰ Time's up! Your final score: " + score);
@@ -93,6 +104,7 @@
       }, 1000);
     }
 
+    // Start the game
     setNewQuestion();
     startTimer();
   </script>
