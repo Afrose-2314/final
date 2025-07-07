@@ -1,57 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login</title>
+  <meta charset="UTF-8">
+  <title>Login - SpinPlayEnjoy</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #00c6ff, #ff6ec4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to right, #2193b0, #6dd5ed);
+      font-family: 'Segoe UI', sans-serif;
     }
     .login-box {
-      background-color: white;
-      padding: 30px;
-      border-radius: 15px;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      width: 300px;
       text-align: center;
     }
-    input, button {
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 90%;
       padding: 10px;
       margin: 10px 0;
-      width: 90%;
-      border-radius: 8px;
+      font-size: 16px;
+      border-radius: 6px;
       border: 1px solid #ccc;
     }
     button {
-      background-color: #0072ff;
+      width: 95%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #2193b0;
       color: white;
       border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #error-msg {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="login-box">
-    <h2>Game Login</h2>
-    <input type="text" id="username" placeholder="Enter Name">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Submit</button>
-    <p id="error-msg" style="color:red;"></p>
+    <h2>🎮 Welcome to SpinPlayEnjoy</h2>
+    <input type="text" id="username" placeholder="Enter your name" required>
+    <input type="password" id="password" placeholder="Password (12345678)" required>
+    <button onclick="login()">Login</button>
+    <div id="error-msg"></div>
   </div>
 
   <script>
+    if (localStorage.getItem("loggedIn") === "true") {
+      window.location.href = "index.html";
+    }
     function login() {
-      const name = document.getElementById("username").value;
+      const name = document.getElementById("username").value.trim();
       const pass = document.getElementById("password").value;
-      if (name && pass === "12345678") {
+      if (name !== "" && pass === "12345678") {
         localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("username", name);
         window.location.href = "index.html";
       } else {
-        document.getElementById("error-msg").innerText = "Invalid credentials.";
+        document.getElementById("error-msg").innerText = "Invalid name or password. Try again.";
       }
     }
   </script>
