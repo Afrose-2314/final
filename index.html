@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SpinPlayEnjoy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkLogin()">
+  <div class="container">
+    <h1>🎡 Spin & Play</h1>
+    <div class="wheel-container">
+      <div id="wheel" class="wheel">
+        <div class="label">Color</div>
+        <div class="label">Math</div>
+        <div class="label">Guess</div>
+        <div class="label">Memory</div>
+        <div class="label">Typing</div>
+      </div>
+      <div class="pointer">▼</div>
+    </div>
+    <button id="spinBtn" onclick="spinWheel()">SPIN</button>
+  </div>
+
+  <div id="gameName" class="game-name-popup"></div>
+
+  <div id="instruction">
+    <h3>📝 Game Instructions</h3>
+    <p id="message"></p>
+    <button id="okBtn">OK, Start Game</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
