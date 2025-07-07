@@ -1,9 +1,9 @@
 const games = [
-  { name: "Color", file: "color.html", instruction: "Match the color name to the correct color block before time runs out!" },
-  { name: "Math", file: "math.html", instruction: "Solve as many math problems as you can within 60 seconds!" },
-  { name: "Guess", file: "guess.html", instruction: "Guess the number between 1 and 100. You'll get hints like 'Too High' or 'Too Low'!" },
-  { name: "Memory", file: "memory.html", instruction: "Match all the card pairs before the timer ends. You have 60 seconds!" },
-  { name: "Typing", file: "typing.html", instruction: "Type each sentence correctly before the time runs out!" }
+  { name: "Color", file: "color.html", instruction: "Match the word color to the color of the text!" },
+  { name: "Math", file: "math.html", instruction: "Solve as many math problems as you can in 60s!" },
+  { name: "Guess", file: "guess.html", instruction: "Guess the number between 1-100 with hints!" },
+  { name: "Memory", file: "memory.html", instruction: "Match pairs before time runs out!" },
+  { name: "Typing", file: "typing.html", instruction: "Type the full sentence accurately before time ends!" }
 ];
 
 let spinning = false;
@@ -25,7 +25,7 @@ function spinWheel() {
   wheel.style.transform = `rotate(${deg}deg)`;
 
   setTimeout(() => {
-    document.getElementById("gameName").innerText = "🎯 Selected Game: " + games[selectedIndex].name;
+    document.getElementById("gameName").innerText = "🎯 Selected: " + games[selectedIndex].name;
     showInstruction();
     spinning = false;
   }, 4500);
@@ -39,7 +39,7 @@ function showInstruction() {
   message.innerText = games[selectedIndex].instruction;
   instruction.style.display = "block";
 
-  okBtn.onclick = function() {
+  okBtn.onclick = function () {
     instruction.style.display = "none";
     window.location.href = games[selectedIndex].file;
   };
