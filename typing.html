@@ -3,10 +3,26 @@
 <head>
   <title>Typing Game</title>
   <style>
-    body { font-family: Arial; background: #fffde7; text-align: center; padding-top: 40px; }
-    input { padding: 10px; width: 300px; font-size: 16px; }
-    #word { font-size: 24px; margin: 20px; font-weight: bold; }
-    #timer, #score { font-size: 18px; margin-top: 10px; }
+    body {
+      font-family: Arial;
+      background: #fffde7;
+      text-align: center;
+      padding-top: 40px;
+    }
+    input {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+    #word {
+      font-size: 24px;
+      margin: 20px;
+      font-weight: bold;
+    }
+    #timer, #score {
+      font-size: 18px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -17,7 +33,7 @@
   <div id="timer">Time Left: 60s</div>
 
   <script>
-    const sentences = ["Practice makes perfect", "Hello world", "Typing is cool", "Believe God", "JavaScript is fun"];
+    const sentences = ["Practice makes perfect", "Hello world", "Typing is cool", "Believe God", "Never give up"];
     let currentWord = "";
     let score = 0, timeLeft = 60;
 
